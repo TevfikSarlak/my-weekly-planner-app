@@ -3,11 +3,10 @@ import React, { useState } from 'react';
 export default function Task({ value, onChange }) {
   const [text, setText] = useState(value);
   const [textDecoration, setTextDecoration] = useState('none');
-  const [isCheckboxShown, setIsCheckboxShown] = useState(false)
   const [hovered, setHovered] = useState(false)
 
   const handleOnChange = (event) => {
-    onChange(event.target.value);
+    onChange(event.target.value.split(","));
     setText(event.target.value);
   };
 
@@ -45,7 +44,7 @@ export default function Task({ value, onChange }) {
             py-1 mt-2 w-full rounded-sm hover:border-b-indigo-800 space-y-2 hover:border-b-2
             focus:shadow-lg`}
       />
-      {hovered && value !== "" &&(
+      {hovered && value !== " " &&(
       <button>
         <img
             src="./images/check-box.png"
