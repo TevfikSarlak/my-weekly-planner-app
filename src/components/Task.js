@@ -4,6 +4,8 @@ export default function Task({ value, onChange }) {
   const [text, setText] = useState(value);
   const [textDecoration, setTextDecoration] = useState('none');
   const [hovered, setHovered] = useState(false)
+  const [isChecked, setIsChecked] = useState(false)
+  
 
   const handleOnChange = (event) => {
     onChange(event.target.value.split(","));
@@ -16,6 +18,7 @@ export default function Task({ value, onChange }) {
 
   function checkboxOnClick() {
     setTextDecoration((prev) => (prev === 'line-through' ? 'none' : 'line-through'));
+    setIsChecked((prev) => (!prev))
   }
 
   function handleOnMouseEnter(e) {
@@ -26,15 +29,12 @@ export default function Task({ value, onChange }) {
         setHovered(false);
     }
    
-  
-
-  
 
   return (
     <div className="relative flex" onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave}>
       <input
         type="text"
-        value={value}
+        value={isChecked ? ('+'+value):value}
         style={{
           textDecoration: textDecoration
         }}

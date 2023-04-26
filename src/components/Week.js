@@ -1,66 +1,99 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState } from "react";
 import { Day } from "./Day";
 import SaveButton from "./SaveButton";
-import { TasksContext } from "./Day";
+
+
 
 export default function Week() {
-  const today = new Date();
-  const daysOfWeek = [ "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-  const [savePage, setSavePage] = useState(false);
-  const { tasksByDay,setTasksByDay } = useContext(TasksContext);
-
-  const days = []
-
- 
 
   const defaultTasks = {
-    "Mon": ["organize your week", " "," "],
-    "Tue": ["write your tasks","hover over","for checking"],
-    "Wed": ["have fun", "take your notes"," "],
-    "Thu": ["Plan"," "," "],
-    "Fri": [" ","enjoy your week "," "],
-    "Sat": ["relax"," "," "],
-    "Sun": [" "," ","Funday"],
+    Mon: ["organize your week", " ", " "],
+    Tue: ["write your tasks", "hover over", "for checking"],
+    Wed: ["have fun", "take your notes", " "],
+    Thu: ["Plan", " ", " "],
+    Fri: [" ", "enjoy your week ", " "],
+    Sat: ["relax", " ", " "],
+    Sun: [" ", " ", "Funday"],
   };
 
+  const today = new Date();
+  const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const [savePage, setSavePage] = useState(false);
 
+  const [tasksByDay, setTasksByDay] = useState({
+    Mon: ["organize your week", "", ""],
+    Tue: ["write your tasks", "hover over", "for checking"],
+    Wed: ["have fun", "take your notes", ""],
+    Thu: ["Plan", "", ""],
+    Fri: ["", "enjoy your week ", ""],
+    Sat: ["relax", "", ""],
+    Sun: ["", "", "Funday"],
+  });
   
-  function handleSaveButton() {
-    setSavePage(true);
-    
+
+
+  function updateTasksByDay(day, newTasks) {
+    setTasksByDay((prevTasksByDay) => ({
+      ...prevTasksByDay,
+      [day]: newTasks,
+    }));
   }
 
-  console.log(tasksByDay)
-
+  const [tasksByDayArray, setTasksByDayArray] = useState(
+    daysOfWeek.map((day) => ({
+      day,
+      tasks: tasksByDay[day],
+    }))
+  );
   
 
-  // Combine default tasks and saved tasks into an array of objects
-  const tasksByDayArray = daysOfWeek.map((day) => ({
-    day,
-    tasks: tasksByDay[day]
-  }));
+  useEffect(() => {
+    const savedTasksForWeek = JSON.parse(localStorage.getItem("savedTasksForWeek"));
+    if (savedTasksForWeek) {
+      setTasksByDay(savedTasksForWeek);
+      console.log(savedTasksForWeek)
+    }
+  }, []);
 
-  console.log(tasksByDayArray)
+  function handleSaveButton() {
+    localStorage.setItem("savedTasksForWeek", JSON.stringify(tasksByDay));
+    setSavePage(true);
+    console.log('savedTasksForWeek')
+  }
 
-  // Find the date of Monday of the current week
-  const mondayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay() + 1);
-
+   // Find the date of Monday of the current week
+   
+   const mondayDate = new Date(
+     today.getFullYear(),
+     today.getMonth(),
+     today.getDate() - today.getDay() + 1
+   );
+ 
+   const days = [];
+ 
    // Push the dates of Monday to Friday
    for (let i = 0; i < 5; i++) {
-    const date = new Date(mondayDate.getFullYear(), mondayDate.getMonth(), mondayDate.getDate() + i);
-    days.push(date);
-  }
-
-  // Push the dates of Saturday and Sunday
-  for (let i = 0; i < 2; i++) {
-    const date = new Date(mondayDate.getFullYear(), mondayDate.getMonth(), mondayDate.getDate() + 5 + i);
-    days.push(date);
-  }
-  
+     const date = new Date(
+       mondayDate.getFullYear(),
+       mondayDate.getMonth(),
+       mondayDate.getDate() + i
+     );
+     days.push(date);
+   }
+ 
+   // Push the dates of Saturday and Sunday
+   for (let i = 0; i < 2; i++) {
+     const date = new Date(
+       mondayDate.getFullYear(),
+       mondayDate.getMonth(),
+       mondayDate.getDate() + 5 + i
+     );
+     days.push(date);
+   }
  
   
-
-
+  
+ 
   const monthYear = today.toLocaleString("en-EN", { month: "long", year: "numeric" });
 
   return (
@@ -76,6 +109,11 @@ export default function Week() {
           day={day}
           date={days[index].toLocaleString("fr-FR", { day: "2-digit", month: "2-digit" })}
           tasks={tasks}
+          tasksByDay={tasksByDay}
+          setTasksByDay={setTasksByDay}
+          updateTasksByDay={updateTasksByDay}
+          tasksByDayArray={tasksByDayArray} 
+          setTasksByDayArray={setTasksByDayArray}// pass tasksByDayArray as a prop to Day component
         
         />
         ))}
