@@ -17,7 +17,7 @@ export default function Intro(props) {
                     bg-gradient-to-r from-amber-300 to-blue-600"
                     >Weekly</span><br></br>
                     <div className="font-poppins bg-amber-400 text-indigo-700 text-4xl md:text-6xl p-4 mr-24 md:mr-60"> Plan
-                    <span className="text-indigo-200">ner</span></div>
+                    <span className="text-indigo-200 line-through">ner</span></div>
                     <h1 className="text-slate-700 mt-8 mb-2 md:mb-4 text-lg md:text-2xl font-poppins text-left">Organize your week with myweek app</h1>
                     <ul className="list-disc ml-4 text-slate-600 font-poppins mb-4">
                         <li >You can add, check ,and delete your tasks</li>

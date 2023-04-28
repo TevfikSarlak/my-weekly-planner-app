@@ -6,7 +6,9 @@ import DateDay from "./DateDay";
 export const Day = ({ day, date,
                       tasksByDay, setTasksByDay, 
                       updateTasksByDay ,
-                      tasksByDayArray,setTasksByDayArray}) => {
+                      tasksByDayArray,setTasksByDayArray,
+                      isCompleted,setIsCompleted
+                      }) => {
   
   const defaultTasks = {
     "Mon": ["organize your week", " ", " "],
@@ -26,10 +28,11 @@ export const Day = ({ day, date,
       const updatedTasksByDayArray = daysOfWeek.map((day) => ({
         day,
         tasks: tasksByDay[day],
+      
       }));
   
       setTasksByDayArray(updatedTasksByDayArray);
-      console.log("Tasks by day array:", updatedTasksByDayArray);
+      
     }
   }, [tasksByDay]);
   
@@ -39,18 +42,27 @@ export const Day = ({ day, date,
   const handleTaskChange = (taskIndex, value) => {
     setTasksByDay(prevTasksByDay => {
       const newTasksByDay = { ...prevTasksByDay }; // create a new object copy
-      newTasksByDay[day][taskIndex] = value;
-  
+      newTasksByDay[day][taskIndex] = { task: value, isCompleted: false }; // create a new task object
+    
       if (taskIndex === newTasksByDay[day].length - 1 && value !== "") {
-        newTasksByDay[day].push("");
+        newTasksByDay[day].push({ task: "", isCompleted: false }); // add a new empty task object
       }
   
       return newTasksByDay;
     });
   
-    console.log("Tasks for " + day + ":", tasksByDay);
     updateTasksByDay(day, tasksByDay[day]); // call the updateTasksByDay function
   };
+  
+
+  const handleComplete = (taskIndex) => {
+    setTasksByDay(prevTasksByDay => {
+      const newTasksByDay = { ...prevTasksByDay }; // create a new object copy
+      newTasksByDay[day][taskIndex].isCompleted = !newTasksByDay[day][taskIndex].isCompleted;
+      return newTasksByDay;
+    });
+  }
+  
   
 
 
@@ -84,7 +96,7 @@ export const Day = ({ day, date,
     days.push(date);
   }
 
-  console.log(tasksByDayArray)
+  
 
   
 
@@ -95,12 +107,15 @@ export const Day = ({ day, date,
           <ul>
           {tasksByDay[day] && tasksByDay[day].map((task, index) => (
             <li key={index}>
-              <Task
-                value={task}
-                onChange={(value) => handleTaskChange(index, value)}
+              <Task 
+                value={task.task}
+                onChange={(updateTasksByDay) => handleTaskChange(index, updateTasksByDay)}
+                onComplete={() => handleComplete(index)}
+                isCompleted={task.isCompleted} // add isComplete prop
               />
             </li>
           ))}
+
 
           </ul>
         </div>
