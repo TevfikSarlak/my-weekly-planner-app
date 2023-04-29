@@ -138,7 +138,7 @@ export default function Week() {
     <div>
       <div className="flex flex-row my-4 font-poppins items-center justify-between border-b-4 pb-4 border-slate-500 px-6">
         <div className="text-2xl md:text-4xl text-slate-800 font-bold">{monthYear}</div>
-        <div className="flex flex-row space-x-2">
+        <div className="flex flex-row space-x-2 ">
           <SaveButton onClick={handleSaveButton} />
           <ClearButton onClick={handleClearButton} />
         </div>
