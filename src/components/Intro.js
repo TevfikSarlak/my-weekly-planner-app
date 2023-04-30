@@ -17,7 +17,7 @@ export default function Intro(props) {
                 <div className="flex flex-col justify-center mx-auto md:grid h-72 w-72 md:w-full mt-24">
                     <img src="/images/intro.jpg" alt="Intro"/>
                 </div>
-                <div className="font-poppins md:mt-48 leading-loose space-y-12 ml-2">
+                <div className="font-poppins sm:mx-auto md:mt-48 leading-loose space-y-12 ml-2">
                     <span className="md:text-8xl text-6xl text-slate-700 font-poppins font-extrabold">My </span>
                     <span className="font-poppins text-4xl md:text-6xl font-bold text-transparent bg-clip-text
                     bg-gradient-to-r from-amber-300 to-blue-600"
@@ -31,7 +31,7 @@ export default function Intro(props) {
                         <li>Easy to use</li>
                         <li>You can take your notes for important events of week</li>
                     </ul>
-                    <button className="font-poppins mx-auto ml-24 md:ml-36 py-3 px-5 bg-indigo-800
+                    <button className="font-poppins mx-auto justify-center md:ml-36 py-3 px-5 bg-indigo-800
                                     hover:bg-indigo-500 rounded-2xl text-white shadow-6xl mb-24"
                             onClick={()=>props.handleStart()}>
                         Get Started
