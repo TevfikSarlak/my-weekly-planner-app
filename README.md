@@ -22,7 +22,6 @@ User authentication and personalized task lists
 
 Contributions to MyWeek are always welcome! If you would like to contribute, please fork the repo and submit a pull request.
 
-Contributions to MyWeek are always welcome! If you would like to contribute, please fork the repo and submit a pull request.
 
 ## License
 

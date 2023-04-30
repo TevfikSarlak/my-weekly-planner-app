@@ -92,7 +92,7 @@ export default function Week() {
       setClearPage(false)
       setNotes(" ")
     }
-  })
+  },[clearPage, notes, defaultTasks])
   
  
 
