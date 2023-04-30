@@ -20,8 +20,8 @@ My Week Calendar was built with ReactJS and styled using Tailwind CSS.
 
 Some possible improvements for MyWeek include:
 
-Integration with external calendar apps
-Reminders and notifications for upcoming tasks
+Integration with external calendar apps,
+Reminders and notifications for upcoming tasks,
 User authentication and personalized task lists
 
 ## Contributions
