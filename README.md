@@ -1,5 +1,7 @@
 # My Weekly Planner
 
+[www.myweek.site](https://www.myweek.site)
+
 ![My Week Calendar Intro](public/images/my-weekly-planner-intro.PNG)
 
 My Week Calendar is a simple and easy-to-use web application for planning your week. It allows you to add, delete, and check off tasks, as well as take notes and save your progress. The calendar starts on Monday to help you plan out your workweek.
