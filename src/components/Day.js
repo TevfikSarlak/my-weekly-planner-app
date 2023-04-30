@@ -20,7 +20,7 @@ export const Day = ({ day, date,
     "Sun": [" ", " ", "Funday"],
   };
 
-  const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const daysOfWeek = ["Sun","Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
 
   useEffect(() => {
@@ -71,7 +71,7 @@ export const Day = ({ day, date,
   const mondayDate = new Date(
     today.getFullYear(),
     today.getMonth(),
-    today.getDate() - today.getDay() + 1
+    today.getDate() - today.getDay() 
   );
 
   const days = [];

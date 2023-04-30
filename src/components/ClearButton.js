@@ -1,5 +1,6 @@
 import React from "react";
 
+// Component for Clear Button with image icon and text
 export default function ClearButton({ onClick }) {
   return (
     <div>

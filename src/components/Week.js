@@ -18,7 +18,7 @@ export default function Week() {
    
   const [isCompleted, setIsCompleted] = useState(false)
   const today = new Date();
-  const daysOfWeek = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const daysOfWeek = ["Sun","Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   const [savePage, setSavePage] = useState(false);
   const [clearPage, setClearPage] = useState(false);
   const [notes, setNotes] = useState("")
@@ -101,7 +101,7 @@ export default function Week() {
    const mondayDate = new Date(
      today.getFullYear(),
      today.getMonth(),
-     today.getDate() - today.getDay() + 1
+     today.getDate() - today.getDay()
    );
  
    const days = [];
