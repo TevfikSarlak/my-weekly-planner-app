@@ -1,4 +1,4 @@
-# My Week Calendar
+# My Weekly Planner
 
 ![My Week Calendar Intro](public/images/my-weekly-planner-intro.PNG)
 
