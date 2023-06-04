@@ -6,7 +6,8 @@ export default function Intro(props) {
     return(
         <div className="">
             <nav className="flex flex-row mx-8 py-4 font-poppins text-slate-700 font-semibold justify-between md:justify-end space-x-6 relative z-10">
-                <a href="#" className="px-2 py-1 border-2 border-white hover:border-2 hover:border-slate-700 hover:rounded-md">Why Plan Weekly?</a>
+                <a href="https://medium.com/@tevfiksarlak/the-benefits-of-weekly-planning-unlocking-success-and-productivity-3ded56107186" 
+                   className="px-2 py-1 border-2 border-white hover:border-2 hover:border-slate-700 hover:rounded-md">Why Plan Weekly?</a>
                 <a href="#" className="px-2 py-1 border-2 border-white hover:border-2 hover:border-slate-700 hover:rounded-md"
                     onClick={() => props.setShowFeedbackForm(true)}>
                     Feedback
