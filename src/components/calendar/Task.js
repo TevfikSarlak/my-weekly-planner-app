@@ -31,7 +31,9 @@ export default function Task({ value, onChange, onComplete, isCompleted }) {
   }
 
   return (
-    <div className="relative flex" onMouseEnter={handleOnMouseEnter} onMouseLeave={handleOnMouseLeave}>
+    <div className="relative flex" 
+         onMouseEnter={handleOnMouseEnter}
+         onMouseLeave={handleOnMouseLeave}>
       <input
         type="text"
         value={value}

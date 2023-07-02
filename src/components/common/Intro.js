@@ -6,12 +6,31 @@ export default function Intro(props) {
     return(
         <div className="">
             <nav className="flex flex-row mx-8 py-4 font-poppins text-slate-700 font-semibold justify-between md:justify-end space-x-6 relative z-10">
+
                 <a href="https://medium.com/@tevfiksarlak/the-benefits-of-weekly-planning-unlocking-success-and-productivity-3ded56107186" 
-                   className="px-2 py-1 border-2 border-white hover:border-2 hover:border-slate-700 hover:rounded-md">Why Plan Weekly?</a>
+                   className="px-2 py-1 border-2 border-white hover:border-2 hover:border-slate-700 hover:rounded-md"
+                   >Why Plan Weekly?
+                </a>
+
                 <a href="#" className="px-2 py-1 border-2 border-white hover:border-2 hover:border-slate-700 hover:rounded-md"
                     onClick={() => props.setShowFeedbackForm(true)}>
                     Feedback
-            </a>
+                </a>
+ 
+            <div class="relative w-8 h-8 overflow-hidden bg-amber-300 rounded-full hover:ring-2 hover:ring-slate-700">
+                <svg class="absolute w-10 h-10 text-slate-700 -left-1" 
+                     fill="currentColor" 
+                     viewBox="0 0 20 20" 
+                     xmlns="http://www.w3.org/2000/svg"
+                >
+
+                    <path fill-rule="evenodd" 
+                        d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" 
+                        clip-rule="evenodd">
+                    </path>
+                </svg>
+            </div>
+
 
             </nav>
             <div className="flex flex-col md:grid md:grid-cols-2 mb-24 ">
