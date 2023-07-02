@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Intro from "./components/Intro";
-import Week from "./components/Week";
-import FeedbackForm from "./components/FeedbackForm";
+import Intro from "./components/common/Intro";
+import Week from "./components/calendar/Week";
+import FeedbackForm from "./components/common/FeedbackForm";
 
 
 

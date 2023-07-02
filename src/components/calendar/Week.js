@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Day } from "./Day";
-import SaveButton from "./SaveButton";
-import ClearButton from "./ClearButton";
+import SaveButton from "../buttons/SaveButton";
+import ClearButton from "../buttons/ClearButton";
 import Notes from "./Notes";
 
 export default function Week() {

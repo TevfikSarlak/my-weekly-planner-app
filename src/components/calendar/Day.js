@@ -111,12 +111,10 @@ export const Day = ({ day, date,
                 value={task.task}
                 onChange={(updateTasksByDay) => handleTaskChange(index, updateTasksByDay)}
                 onComplete={() => handleComplete(index)}
-                isCompleted={task.isCompleted} // add isComplete prop
+                isCompleted={task.isCompleted}
               />
             </li>
           ))}
-
-
           </ul>
         </div>
       
