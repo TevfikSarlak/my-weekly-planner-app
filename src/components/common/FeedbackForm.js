@@ -1,17 +1,16 @@
 import { useForm } from '@formspree/react';
 import { useEffect } from 'react';
+import { Navigate } from 'react-router-dom';
 
-export default function FeedbackForm(props) {
+export default function FeedbackForm() {
   const [state, handleSubmit] = useForm("mbjewlgj");
 
   const onSubmit = async (event) => {
     await handleSubmit(event);
     if (state.succeeded) {
-      props.handleFeedbackFormSuccess();
-      props.handleCloseFeedbackForm();
+      <Navigate to="/feedbacksubmitted" replace={true} />
     }
-    props.setShowFeedbackForm(false)
-    props.setFeedbackSubmitted(true)
+    
   }
 
   useEffect(() => {
@@ -19,8 +18,7 @@ export default function FeedbackForm(props) {
   },[])
 
   const handleCloseModal = () => {
-    props.handleCloseFeedbackForm();
-    props.setShowFeedbackForm(false);
+    <Navigate to="/" replace={true} />
   }
 
   return (
