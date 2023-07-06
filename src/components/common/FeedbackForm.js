@@ -1,14 +1,15 @@
 import { useForm } from '@formspree/react';
 import { useEffect } from 'react';
-import { Navigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 export default function FeedbackForm() {
   const [state, handleSubmit] = useForm("mbjewlgj");
+  const navigate = useNavigate();
 
   const onSubmit = async (event) => {
     await handleSubmit(event);
     if (state.succeeded) {
-      <Navigate to="/feedbacksubmitted" replace={true} />
+      navigate('/feedbacksubmit')
     }
     
   }
@@ -18,7 +19,7 @@ export default function FeedbackForm() {
   },[])
 
   const handleCloseModal = () => {
-    <Navigate to="/" replace={true} />
+    navigate('/')
   }
 
   return (
@@ -29,23 +30,6 @@ export default function FeedbackForm() {
             className="bg-white p-8 w-5/6 md:w-1/3 rounded-lg shadow-md" 
             onClick={(event) => event.stopPropagation()}
       >
-        <button type="button" 
-                className="text-gray-500 hover:text-gray-800 absolute top-0 right-0 p-4" 
-                onClick={handleCloseModal}
-        >
-          <svg xmlns="http://www.w3.org/2000/svg" 
-               className="h-6 w-6" 
-               fill="none"
-               viewBox="0 0 24 24" 
-               stroke="currentColor"
-          >
-            <path strokeLinecap="round"
-                  strokeLinejoin="round" 
-                  strokeWidth={2} 
-                  d="M6 18L18 6M6 6l12 12" 
-            />
-          </svg>
-        </button>
 
         <h2 className="text-lg font-poppins text-slate-900 font-bold mb-4">Send Us Your Feedback</h2>
         
@@ -93,14 +77,16 @@ export default function FeedbackForm() {
           >
           </textarea>
         </div>
-
-        <button
-          type="submit"
-          disabled={state.submitting}
-          className="bg-slate-800 hover:bg-indigo-500 text-white rounded-lg py-2 px-4"
-        >
-          {state.submitting ? 'Submitting...' : 'Submit'}
-        </button>
+        
+        
+          <button
+            type="submit"
+            disabled={state.submitting}
+            className="bg-slate-800 hover:bg-indigo-500 text-white rounded-lg py-2 px-4"
+          >
+            {state.submitting ? 'Submitting...' : 'Submit'}
+          </button>
+        
 
       </form>
       
