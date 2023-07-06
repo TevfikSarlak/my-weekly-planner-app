@@ -9,15 +9,15 @@ import FeedbackSubmit from "./components/common/FeedbackSubmit";
 function App() {
   return (
     <div className="App">
-      <Router>
+     
         <Routes>
           <Route path="/" element={<Intro />} />
           <Route path="/feedback" element={<FeedbackForm />} />
           <Route path="/week" element={<Week />} />
           <Route path="/signup" element={<Signup />} />
-          <Route path="/feedbacksubmitted" element={<FeedbackSubmit />} />
+          <Route path="/feedbacksubmit" element={<FeedbackSubmit />} />
         </Routes>
-      </Router>
+      
     </div>
   );
 }
