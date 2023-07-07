@@ -1,30 +1,34 @@
 import { useForm } from '@formspree/react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 
 export default function FeedbackForm() {
   const [state, handleSubmit] = useForm("mbjewlgj");
   const navigate = useNavigate();
+  const [isFormSubmitted, setIsFormSubmitted] = useState(false);
 
   const onSubmit = async (event) => {
+    event.preventDefault();
     await handleSubmit(event);
-    if (state.succeeded) {
-      navigate('/feedbacksubmit')
-    }
-    
-  }
+    setIsFormSubmitted(true);
+  };
+
 
   useEffect(() => {
-    onSubmit()
-  },[])
+    if (isFormSubmitted && state.succeeded) {
+      navigate('/feedbacksubmit');
+    }
+  }, [isFormSubmitted, state.succeeded]);
+
 
   const handleCloseModal = () => {
     navigate('/')
   }
 
   return (
-    <div className="fixed font-poppins top-0 left-0 w-screen h-screen bg-gray-700 bg-opacity-75 flex justify-center items-center z-50" 
-         onClick={handleCloseModal}
+    <div className="fixed font-poppins top-0 left-0 w-screen h-screen
+                  bg-gray-200 bg-opacity-75 flex justify-center items-center z-50"
+         onClick={handleCloseModal}    
     >
       <form onSubmit={onSubmit} 
             className="bg-white p-8 w-5/6 md:w-1/3 rounded-lg shadow-md" 
@@ -89,6 +93,8 @@ export default function FeedbackForm() {
         
 
       </form>
+
+      <div className="overlay" onClick={handleCloseModal} />
       
     </div>
   );
