@@ -1,11 +1,31 @@
-import React from "react";
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import { Link, useNavigate } from 'react-router-dom';
 import Signup from "./Signup";
 import { BrowserRouter as Router } from 'react-router-dom';
 import FeedbackForm from "./FeedbackForm";
 import Week from "../calendar/Week";
 
 export default function Intro(props) {
+    const [isHovered, setIsHovered] = useState(false);
+    const navigate = useNavigate();
+
+    const handleMouseEnter = () => {
+      setIsHovered(true);
+    };
+
+    const handleMouseLeave = () => {
+      setIsHovered(false);
+    }
+
+    const handleSignupClick = () => {
+        navigate('/signup')
+    }
+
+    const handleLoginClick = () => {
+        navigate('/login')
+    }
+  
+    
   return (
     <div className="">
       <nav className="flex flex-row mx-8 py-4 font-poppins text-slate-700 font-semibold justify-between md:justify-end space-x-6 relative z-10">
@@ -23,24 +43,57 @@ export default function Intro(props) {
           Feedback
         </Link>
 
-        <Link
-          to="/signup"
-          className="relative w-8 h-8 overflow-hidden bg-amber-300 rounded-full hover:ring-2 hover:ring-slate-700"
-        >
-          <svg
-            className="absolute w-10 h-10 text-slate-700 -left-1"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-            xmlns="http://www.w3.org/2000/svg"
+        <div className="relative">
+          <div
+            className="relative w-8 h-8 overflow-hidden bg-amber-300 rounded-full hover:ring-2 hover:ring-slate-700"
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
           >
-            <path
-              fillRule="evenodd"
-              d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-              clipRule="evenodd"
-            ></path>
-          </svg>
-        </Link>
+            <svg
+              className="absolute w-10 h-10 text-slate-700 -left-1"
+              fill="currentColor"
+              viewBox="0 0 20 20"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                fillRule="evenodd"
+                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                clipRule="evenodd"
+              ></path>
+            </svg>
+          </div>
+
+          
+            <div className="absolute right-0 bg-white divide-y divide-gray-100 rounded-lg shadow w-44"
+                 onMouseEnter={handleMouseEnter}
+                 onMouseLeave={handleMouseLeave}
+            >
+            {isHovered && (
+              <ul className="py-2 text-sm text-gray-700">
+                <li>
+                  <Link
+                    to="/login"
+                    className="block px-4 py-2 hover:bg-gray-100"
+                    onClick={handleLoginClick}
+                  >
+                    Login
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    to="/signup"
+                    className="block px-4 py-2 hover:bg-gray-100"
+                    onClick={handleSignupClick}
+                  >
+                    Signup
+                  </Link>
+                </li>
+              </ul>)}
+            </div>
+          
+        </div>
       </nav>
+
       <div className="flex flex-col md:grid md:grid-cols-2 mb-24 ">
         <div className="flex flex-col justify-center mx-auto md:grid h-72 w-72 md:w-full mt-24">
           <img src="/images/intro.jpg" alt="Intro" />
@@ -70,7 +123,7 @@ export default function Intro(props) {
             <li>You can take your notes for important events of week</li>
           </ul>
           <Link to="/week">
-            <button className="font-poppins mx-auto justify-center md:ml-36 py-3 px-5 bg-indigo-800 hover:bg-indigo-500 rounded-2xl text-white shadow-6xl mb-24">
+            <button className="font-poppins mx-auto justify-center md:ml-36 py-3 px-5 bg-indigo-800 hover:bg-indigo-500 rounded-2xl text-white shadow-6xl mb-24 mt-12">
               Get Started
             </button>
           </Link>
