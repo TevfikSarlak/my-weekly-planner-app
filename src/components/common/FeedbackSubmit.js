@@ -10,10 +10,8 @@ export default function FeedbackSubmit () {
             <p className="text-lg">We appreciate your input and will use it to improve our app.</p>
             <Link to="/" >
                 <button
-                className="bg-indigo-600 hover:bg-indigo-400 text-white py-2 px-4 rounded-lg mt-4"
-                
-                >
-                Close
+                   className="bg-indigo-600 hover:bg-indigo-400 text-white py-2 px-4 rounded-lg mt-4"
+                   >Close
                 </button>
             </Link>
           </div>
