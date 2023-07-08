@@ -1,6 +1,7 @@
 import { useForm } from '@formspree/react';
 import { useEffect, useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { MdClose } from 'react-icons/md';
 
 export default function FeedbackForm() {
   const [state, handleSubmit] = useForm("mbjewlgj");
@@ -20,20 +21,30 @@ export default function FeedbackForm() {
     }
   }, [isFormSubmitted, state.succeeded]);
 
-
   const handleCloseModal = () => {
-    navigate('/')
-  }
+    navigate("/");
+  };
+
+
+  
 
   return (
     <div className="fixed font-poppins top-0 left-0 w-screen h-screen
-                  bg-gray-200 bg-opacity-75 flex justify-center items-center z-50"
-         onClick={handleCloseModal}    
+                  bg-gray-200 bg-opacity-75 flex flex-col justify-center items-center z-50"  
     >
+
       <form onSubmit={onSubmit} 
             className="bg-white p-8 w-5/6 md:w-1/3 rounded-lg shadow-md" 
             onClick={(event) => event.stopPropagation()}
       >
+        <div className="flex items-end justify-end">
+          <button
+            className="text-gray-500 hover:text-gray-800 transition-all duration-200"
+            onClick={handleCloseModal}
+          >
+            <MdClose size={24} />
+          </button>
+        </div>
 
         <h2 className="text-lg font-poppins text-slate-900 font-bold mb-4">Send Us Your Feedback</h2>
         
@@ -93,8 +104,6 @@ export default function FeedbackForm() {
         
 
       </form>
-
-      <div className="overlay" onClick={handleCloseModal} />
       
     </div>
   );

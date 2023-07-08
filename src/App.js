@@ -10,7 +10,7 @@ import Login from "./components/common/Login";
 function App() {
   return (
     <div className="App">
-     
+      <Router>
         <Routes>
           <Route path="/" element={<Intro />} />
           <Route path="/feedback" element={<FeedbackForm />} />
@@ -19,7 +19,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/feedbacksubmit" element={<FeedbackSubmit />} />
         </Routes>
-      
+      </Router>   
     </div>
   );
 }

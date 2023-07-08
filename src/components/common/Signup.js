@@ -1,25 +1,36 @@
 import React from 'react';
-import { useNavigate, Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { MdClose } from 'react-icons/md';
 
 export default function Signup() {
+
     const navigate = useNavigate();
 
     const handleCloseModal = () => {
-        navigate('/')
-      }
+        navigate('/');
+    }
 
     return (
         <div>
-             <div className="fixed font-poppins bg-gray-200 top-0 left-0 w-screen h-screen bg-opacity-75 flex justify-center items-center z-50"
-                      onClick={handleCloseModal}    
-             >
+             <div className="fixed font-poppins bg-gray-200 top-0 left-0 w-screen h-screen bg-opacity-75 flex justify-center items-center z-50">
                 <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                    
                     <div className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
                         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
+
+                           <div className="flex items-end justify-end">
+                                <button
+                                    className="text-gray-500 hover:text-gray-800 transition-all duration-200"
+                                    onClick={handleCloseModal}
+                                >
+                                    <MdClose size={24} />
+                                </button>
+                            </div>
+
                             <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
                                 Create an Account
                             </h1>
+
                             <form className="space-y-4 md:space-y-6" 
                                   action="#">
                                 <div>

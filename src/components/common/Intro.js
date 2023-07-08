@@ -18,16 +18,16 @@ export default function Intro(props) {
     }
 
     const handleSignupClick = () => {
-        navigate('/signup')
+        navigate("/signup")
     }
 
     const handleLoginClick = () => {
-        navigate('/login')
+        navigate("/login")
     }
   
     
   return (
-    <div className="">
+    <div>
       <nav className="flex flex-row mx-8 py-4 font-poppins text-slate-700 font-semibold justify-between md:justify-end space-x-6 relative z-10">
         <a
           href="https://medium.com/@tevfiksarlak/the-benefits-of-weekly-planning-unlocking-success-and-productivity-3ded56107186"
@@ -36,6 +36,7 @@ export default function Intro(props) {
           Why Plan Weekly?
         </a>
 
+        
         <Link
           to="/feedback"
           className="px-2 py-1 border-2 border-white hover:border-2 hover:border-slate-700 hover:rounded-md"
@@ -43,6 +44,7 @@ export default function Intro(props) {
           Feedback
         </Link>
 
+         
         <div className="relative">
           <div
             className="relative w-8 h-8 overflow-hidden bg-amber-300 rounded-full hover:ring-2 hover:ring-slate-700"
