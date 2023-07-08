@@ -2,8 +2,7 @@ import React from "react";
 
 export default function Notes({notes, setNotes, handleNotesChange}) {
     return (
-        <div >
-        
+        <div className="mt-8">
             <textarea
                 placeholder="Enter your Notes here..."
                 type="text"

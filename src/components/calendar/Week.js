@@ -4,6 +4,8 @@ import SaveButton from "../buttons/SaveButton";
 import ClearButton from "../buttons/ClearButton";
 import Notes from "./Notes";
 import UserIcon from "../buttons/UserIcon";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../../firebase";
 
 export default function Week() {
 
@@ -16,7 +18,8 @@ export default function Week() {
     Sat: [{ task: "", isCompleted: false }, { task: "", isCompleted: false }, { task: "", isCompleted: false }],
     Sun: [{ task: "", isCompleted: false }, { task: "", isCompleted: false }, { task: "", isCompleted: false }],
   };
-   
+  
+  const [isLoggedin, setIsLoggedin] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false)
   const today = new Date();
   const daysOfWeek = ["Sun","Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -53,10 +56,16 @@ export default function Week() {
     }))
   );
 
-  
-  
- 
-  
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setIsLoggedin(true);
+      } else {
+        setIsLoggedin(false);
+      }
+    });
+  }, []);
+
 
   useEffect(() => {
     const savedTasksForWeek = JSON.parse(localStorage.getItem("savedTasksForWeek"));
@@ -98,7 +107,6 @@ export default function Week() {
  
 
    // Find the date of Monday of the current week
-   
    const mondayDate = new Date(
      today.getFullYear(),
      today.getMonth(),
@@ -139,11 +147,11 @@ export default function Week() {
     <div>
       <div className="flex flex-row my-4 font-poppins items-center justify-between border-b-4 pb-4 border-slate-500 px-6">
         <div className="text-2xl md:text-4xl text-slate-800 font-bold">{monthYear}</div>
-        
-        <div className="flex flex-row space-x-2 ">
+
+        <div className="flex flex-row space-x-2 md:space-x-4 ">
           <SaveButton onClick={handleSaveButton} />
           <ClearButton onClick={handleClearButton} />
-          <UserIcon />
+          <UserIcon isLoggedin={isLoggedin}/>
         </div>
       </div>
 
@@ -158,11 +166,12 @@ export default function Week() {
           setTasksByDay={setTasksByDay}
           updateTasksByDay={updateTasksByDay}
           tasksByDayArray={tasksByDayArray} 
-          setTasksByDayArray={setTasksByDayArray}// pass tasksByDayArray as a prop to Day component
+          setTasksByDayArray={setTasksByDayArray}
           isCompleted={isCompleted}
           setIsCompleted={setIsCompleted}
         />
         ))}
+
         <div className="flex flex-col md:grid md:col-start-3 md:col-end-6 md:col-span-2 h-48 font-poppins">
             <div className="col-span-2"></div>
             <div className="col-span-2 col-end-6">
@@ -172,6 +181,7 @@ export default function Week() {
                 handleNotesChange={handleNotesChange} />
             </div>
         </div>
+        
       </div>
     </div>
     

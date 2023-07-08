@@ -8,6 +8,7 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "drag-react": "^1.1.1",
+    "firebase": "^10.0.0",
     "flowbite": "^1.6.6",
     "nano-id": "^1.1.0",
     "react": "^18.2.0",

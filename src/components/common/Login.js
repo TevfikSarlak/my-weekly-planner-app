@@ -1,10 +1,38 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { MdClose } from 'react-icons/md';
+import {  signInWithEmailAndPassword   } from 'firebase/auth';
+import { auth, } from '../../firebase';
 
 export default function Login() {
 
     const navigate = useNavigate();
+    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
+    const [errorMessage, setErrorMessage] = useState('');
+
+    
+
+    const onLogin = (e) => {
+        e.preventDefault();
+        signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+            const user = userCredential.user;
+            navigate("/week")
+            console.log(user);
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            if(errorMessage){
+                setErrorMessage("Password or Email is wrong!")
+                setPassword('')
+                setEmail('')
+            }
+            console.log(errorCode, errorMessage)
+        });
+       
+    }
 
     const handleCloseModal = () => {
         navigate("/");
@@ -16,7 +44,7 @@ export default function Login() {
              <section className="fixed font-poppins top-0 left-0 w-screen h-screen
                                bg-gray-200 bg-opacity-75 flex justify-center items-center z-50"
              >
-                <div className="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+                <div className="flex flex-col w-5/6 md:w-1/3 items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
                    
                     <div className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
                         <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
@@ -45,9 +73,12 @@ export default function Login() {
                                     <input type="email" 
                                            name="email"
                                            id="email" 
+                                           value={email}
+                                           onChange={(e)=>setEmail(e.target.value)}
+                                           
                                            className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" 
                                            placeholder="name@company.com" 
-                                           required=""
+                                           required
                                     />
                                 </div>
 
@@ -60,14 +91,23 @@ export default function Login() {
                                     <input type="password" 
                                            name="password"
                                            id="password" 
+                                           value={password}
+                                           onChange={(e) => setPassword(e.target.value)}
                                            placeholder="••••••••" 
                                            className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5" 
                                            required=""
                                     />
 
+                                   {errorMessage && (
+                                        <p className="text-sm text-red-700">{errorMessage}</p>
+                                    )}
+
+
+
                                 </div>
 
                                 <button type="submit"
+                                        onClick={onLogin}
                                         className="w-full text-white bg-indigo-800 hover:bg-indigo-600 focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                                         >Log In
                                 </button>
@@ -76,7 +116,7 @@ export default function Login() {
                                 <p className="text-sm font-light text-gray-500">
                                     Don't you have an account? 
                                     <Link to="/signup" className="font-medium text-indigo-600 hover:underline">
-                                        Signup here
+                                        Sign up here
                                     </Link>
                                 </p>
                             </form>
