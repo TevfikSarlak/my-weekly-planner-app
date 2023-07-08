@@ -1,29 +1,31 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from 'react-router-dom';
-import Signup from "./Signup";
-import { BrowserRouter as Router } from 'react-router-dom';
-import FeedbackForm from "./FeedbackForm";
-import Week from "../calendar/Week";
+import UserIcon from "../buttons/UserIcon";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../../firebase";
 
-export default function Intro(props) {
-    const [isHovered, setIsHovered] = useState(false);
-    const navigate = useNavigate();
+export default function Intro() {
 
-    const handleMouseEnter = () => {
-      setIsHovered(true);
-    };
+    const [isLoggedin, setIsLoggedin] = useState(false);
 
-    const handleMouseLeave = () => {
-      setIsHovered(false);
-    }
+    useEffect(()=>{
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+              
+              const uid = user.uid;
+              console.log("uid", uid)
+              setIsLoggedin(true)
 
-    const handleSignupClick = () => {
-        navigate("/signup")
-    }
+            } else {
+              console.log("user is logged out")
+              setIsLoggedin(false)
+            }
+          });
+         
+    }, [])
 
-    const handleLoginClick = () => {
-        navigate("/login")
-    }
+
+    
   
     
   return (
@@ -43,57 +45,9 @@ export default function Intro(props) {
         >
           Feedback
         </Link>
+        
+        <UserIcon isLoggedin={isLoggedin}/>
 
-         
-        <div className="relative">
-          <div
-            className="relative w-8 h-8 overflow-hidden bg-amber-300 rounded-full hover:ring-2 hover:ring-slate-700"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}
-          >
-            <svg
-              className="absolute w-10 h-10 text-slate-700 -left-1"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fillRule="evenodd"
-                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                clipRule="evenodd"
-              ></path>
-            </svg>
-          </div>
-
-          
-            <div className="absolute right-0 bg-white divide-y divide-gray-100 rounded-lg shadow w-44"
-                 onMouseEnter={handleMouseEnter}
-                 onMouseLeave={handleMouseLeave}
-            >
-            {isHovered && (
-              <ul className="py-2 text-sm text-gray-700">
-                <li>
-                  <Link
-                    to="/login"
-                    className="block px-4 py-2 hover:bg-gray-100"
-                    onClick={handleLoginClick}
-                  >
-                    Login
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    to="/signup"
-                    className="block px-4 py-2 hover:bg-gray-100"
-                    onClick={handleSignupClick}
-                  >
-                    Signup
-                  </Link>
-                </li>
-              </ul>)}
-            </div>
-          
-        </div>
       </nav>
 
       <div className="flex flex-col md:grid md:grid-cols-2 mb-24 ">
