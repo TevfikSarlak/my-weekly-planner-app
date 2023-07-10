@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
+import { sendPasswordResetEmail } from "firebase/auth";
 
 export default function UserIcon({ isLoggedin }) {
   const navigate = useNavigate();
@@ -35,6 +36,20 @@ export default function UserIcon({ isLoggedin }) {
         console.log(error);
       });
   };
+
+  const handleResetPassword = () => {
+        const user = auth.currentUser;
+        const email = user.email;
+        sendPasswordResetEmail(auth, email)
+        .then(() => {
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            console.log(errorCode, errorMessage)
+        });
+  }
+    
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -76,6 +91,16 @@ export default function UserIcon({ isLoggedin }) {
                   onClick={handleLogout}
                 >
                   Logout
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  to="/login"
+                  className="block px-4 py-2 hover:bg-indigo-200"
+                  onClick={handleResetPassword}
+                >
+                  Reset Password
                 </Link>
               </li>
             </ul>

@@ -5,7 +5,8 @@ import ClearButton from "../buttons/ClearButton";
 import Notes from "./Notes";
 import UserIcon from "../buttons/UserIcon";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../../firebase";
+import { auth, db } from "../../firebase";
+import { collection, getDocs, addDoc } from "firebase/firestore";
 
 export default function Week() {
 
@@ -66,29 +67,78 @@ export default function Week() {
     });
   }, []);
 
-
-  useEffect(() => {
-    const savedTasksForWeek = JSON.parse(localStorage.getItem("savedTasksForWeek"));
-    const savedNotes = JSON.parse(localStorage.getItem("savedNotes"))
-    if (savedTasksForWeek) {
-      setTasksByDay(savedTasksForWeek);
-    }
-    if (savedNotes) {
-      setNotes(savedNotes)
-    }
-  }, []); 
-
   function handleSaveButton() {
     setSavePage(true);
   }
 
   useEffect(() => {
     if (savePage) {
-      localStorage.setItem("savedTasksForWeek", JSON.stringify(tasksByDay));
-      localStorage.setItem("savedNotes",JSON.stringify(notes))
+      // Save tasks to Firestore
+      const saveTasksToFirestore = async () => {
+        try {
+          const user = auth.currentUser;
+          const userId = user.uid;
+      
+          const userWeeksRef = collection(db, "users", userId, "weeks");
+          const weekDocRef = await addDoc(userWeeksRef, {
+            tasks: tasksByDay,
+            notes,
+          });
+          console.log("Week document added with ID: ", weekDocRef.id);
+        } catch (error) {
+          console.error("Error adding week document: ", error);
+        }
+      };
+      
+      saveTasksToFirestore();
       setSavePage(false);
+      setTasksByDay(tasksByDay)
+      console.log(tasksByDay)
     }
-  },[tasksByDay, savePage, notes])
+  }, [tasksByDay, savePage, notes]);
+
+
+  useEffect(() => {
+    // Check if the "weeks" collection exists
+    const checkWeeksCollection = async () => {
+      const collectionRef = collection(db, "weeks");
+      const collectionSnapshot = await getDocs(collectionRef);
+      if (collectionSnapshot.empty) {
+        // Create the "weeks" collection if it doesn't exist
+        await addDoc(collectionRef, {});
+      }
+    };
+
+    checkWeeksCollection();
+  }, []);
+
+
+  useEffect(() => {
+    const user = auth.currentUser;
+    const userId = user.uid;
+    const userWeeksRef = collection(db, "users", userId, "weeks");
+  
+    const fetchSavedTasks = async () => {
+      try {
+        const snapshot = await getDocs(userWeeksRef);
+        if (!snapshot.empty) {
+          snapshot.forEach((doc) => {
+            const data = doc.data();
+            console.log(data)
+            // Update tasksByDay and notes state with the fetched data
+            setTasksByDay(data.tasks);
+            setNotes(data.notes);
+          });
+        }
+      } catch (error) {
+        console.error("Error fetching saved tasks: ", error);
+      }
+    };
+  
+    fetchSavedTasks();
+  }, []);
+  
+
 
   function handleClearButton () {
      setClearPage(true)
@@ -96,8 +146,6 @@ export default function Week() {
 
   useEffect(() => {
     if (clearPage) {
-      localStorage.removeItem("savedTasksForWeek")
-      localStorage.removeItem("savedNotes")
       setTasksByDay(defaultTasks)
       setClearPage(false)
       setNotes(" ")

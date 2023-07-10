@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { MdClose } from 'react-icons/md';
-import {  signInWithEmailAndPassword   } from 'firebase/auth';
+import {  signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider  } from 'firebase/auth';
 import { auth, } from '../../firebase';
+import { RiGoogleFill } from 'react-icons/ri';
 
 export default function Login() {
 
@@ -33,6 +34,26 @@ export default function Login() {
         });
        
     }
+
+    const handleLoginWithGoogle = () => {
+        const provider = new GoogleAuthProvider();
+        signInWithPopup(auth, provider)
+          .then((result) => {
+            // Handle successful login with Google
+            const credential = GoogleAuthProvider.credentialFromResult(result);
+            const token = credential.accessToken;
+            const user = result.user;
+            console.log(user);
+          })
+          .catch((error) => {
+            // Handle errors
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            const email = error.customData.email;
+            const credential = GoogleAuthProvider.credentialFromError(error);
+            console.log(errorCode, errorMessage);
+          });
+      };
 
     const handleCloseModal = () => {
         navigate("/");
@@ -112,6 +133,15 @@ export default function Login() {
                                         >Log In
                                 </button>
 
+                                <div className='text-slate-400 flex flex-col justify-center items-center text-sm' >OR</div>
+                                
+                                <button
+                                    className="flex items-center justify-center w-full text-indigo-800 bg-sky-100 hover:bg-sky-200 hover:underline focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                                    onClick={handleLoginWithGoogle}
+                                >
+                                    <RiGoogleFill size={20} className="mr-2" />
+                                    Login with Google
+                                </button>
                                 
                                 <p className="text-sm font-light text-gray-500">
                                     Don't you have an account? 
