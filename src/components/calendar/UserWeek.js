@@ -6,10 +6,10 @@ import Notes from "./Notes";
 import UserIcon from "../buttons/UserIcon";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, db } from "../../firebase";
-import { collection, getDocs, addDoc, doc, getDoc, setDoc } from "firebase/firestore";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 import { defaultTasks, firstTasks } from "../../utils";
 
-export default function UserWeek() {
+export default function UserWeek( { userInitial }) {
   const [isLoggedin, setIsLoggedin] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
   const today = new Date();
@@ -136,7 +136,8 @@ export default function UserWeek() {
         <div className="flex flex-row space-x-2 md:space-x-4 ">
           <SaveButton onClick={handleSaveButton} />
           <ClearButton onClick={handleClearButton} />
-          <UserIcon isLoggedin={isLoggedin} />
+          <UserIcon isLoggedin={isLoggedin}
+                    userInitial={userInitial} />
         </div>
       </div>
 

@@ -3,6 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 import { sendPasswordResetEmail } from "firebase/auth";
+import { AiOutlineCalendar } from "react-icons/ai";
 
 export default function UserIcon({ isLoggedin }) {
   const navigate = useNavigate();
@@ -60,7 +61,7 @@ export default function UserIcon({ isLoggedin }) {
   };
 
   return (
-    <div className="relative" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+    <div className="relative z-50" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       <div className="relative w-8 h-8 overflow-hidden bg-amber-500 rounded-full hover:ring-2 hover:ring-slate-700">
         {isLoggedin ? (
           <h1 className="text-3xl text-slate-700 flex justify-center items-center font-bold">{userInitial}</h1>
@@ -84,6 +85,17 @@ export default function UserIcon({ isLoggedin }) {
         <div className="absolute right-0 bg-gray-100 divide-y divide-gray-200 rounded-lg shadow w-44">
           {isLoggedin ? (
             <ul className="py-2 text-sm text-gray-700">
+              <li>
+              <Link
+                  to="/userweek"
+                  className="px-4 py-2 flex items-center hover:bg-indigo-200"
+                >
+                  <span className="mr-1">My Week</span>
+                  <span>
+                    <AiOutlineCalendar size={24} />
+                  </span>
+                </Link>
+              </li>
               <li>
                 <Link
                   to="/"

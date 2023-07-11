@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import UserIcon from "../buttons/UserIcon";
 
 
-export default function Intro({ isLoggedin }) {
+export default function Intro({ isLoggedin, userInitial }) {
     
   return (
     <div>
@@ -23,7 +23,8 @@ export default function Intro({ isLoggedin }) {
           Feedback
         </Link>
         
-        <UserIcon isLoggedin={isLoggedin}/>
+        <UserIcon isLoggedin={isLoggedin}
+                  userInitial={userInitial}/>
 
       </nav>
 
