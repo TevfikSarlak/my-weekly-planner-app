@@ -1,32 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import UserIcon from "../buttons/UserIcon";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../../firebase";
-
-export default function Intro() {
-
-    const [isLoggedin, setIsLoggedin] = useState(false);
-
-    useEffect(()=>{
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-              
-              const uid = user.uid;
-              console.log("uid", uid)
-              setIsLoggedin(true)
-
-            } else {
-              console.log("user is logged out")
-              setIsLoggedin(false)
-            }
-          });
-         
-    }, [])
 
 
-    
-  
+export default function Intro({ isLoggedin }) {
     
   return (
     <div>

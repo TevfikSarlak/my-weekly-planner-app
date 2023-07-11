@@ -1,42 +1,24 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate  } from "react-router-dom";
 import { Day } from "./Day";
 import SaveButton from "../buttons/SaveButton";
 import ClearButton from "../buttons/ClearButton";
 import Notes from "./Notes";
 import UserIcon from "../buttons/UserIcon";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth, db } from "../../firebase";
-import { collection, getDocs, addDoc } from "firebase/firestore";
+import { defaultTasks, firstTasks } from "../../utils";
+
 
 export default function Week() {
 
-  const defaultTasks = {
-    Mon: [{ task: "", isCompleted: false }, { task: "", isCompleted: false }, { task: "", isCompleted: false }],
-    Tue: [{ task: "", isCompleted: false }, { task: "", isCompleted: false }, { task: "", isCompleted: false }],
-    Wed: [{ task: "", isCompleted: false }, { task: "", isCompleted: false }, { task: "", isCompleted: false }],
-    Thu: [{ task: "", isCompleted: false }, { task: "", isCompleted: false }, { task: "", isCompleted: false }],
-    Fri: [{ task: "", isCompleted: false }, { task: "", isCompleted: false }, { task: "", isCompleted: false }],
-    Sat: [{ task: "", isCompleted: false }, { task: "", isCompleted: false }, { task: "", isCompleted: false }],
-    Sun: [{ task: "", isCompleted: false }, { task: "", isCompleted: false }, { task: "", isCompleted: false }],
-  };
-  
+ 
   const [isLoggedin, setIsLoggedin] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false)
   const today = new Date();
   const daysOfWeek = ["Sun","Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  const [savePage, setSavePage] = useState(false);
   const [clearPage, setClearPage] = useState(false);
-  const [notes, setNotes] = useState("")
-
-  const [tasksByDay, setTasksByDay] = useState({
-    Mon: [{ task: "organize your week😊", isCompleted: false }, { task: " ", isCompleted: false }, { task: " ", isCompleted: false }],
-    Tue: [{ task: "write your tasks", isCompleted: false }, { task: "hover over for checking", isCompleted: false }, { task: "", isCompleted: false }],
-    Wed: [{ task: "have fun", isCompleted: false }, { task: "take your notes📕", isCompleted: false }, { task: "", isCompleted: false }],
-    Thu: [{ task: "Plan", isCompleted: false }, { task: "", isCompleted: false }, { task: "", isCompleted: false }],
-    Fri: [{ task: "Save&Clear", isCompleted: false }, { task: "Not forget to save ", isCompleted: false }, { task: "", isCompleted: false }],
-    Sat: [{ task: "relax", isCompleted: false }, { task: "Enjoy your week", isCompleted: false }, { task: "", isCompleted: false }],
-    Sun: [{ task: "Funday🌞", isCompleted: false }, { task: "", isCompleted: false }, { task: "", isCompleted: false }],
-  });
+  const [notes, setNotes] = useState("");
+  const [tasksByDay, setTasksByDay] = useState(firstTasks);
+  const navigate = useNavigate();
  
   
 
@@ -57,87 +39,6 @@ export default function Week() {
     }))
   );
 
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setIsLoggedin(true);
-      } else {
-        setIsLoggedin(false);
-      }
-    });
-  }, []);
-
-  function handleSaveButton() {
-    setSavePage(true);
-  }
-
-  useEffect(() => {
-    if (savePage) {
-      // Save tasks to Firestore
-      const saveTasksToFirestore = async () => {
-        try {
-          const user = auth.currentUser;
-          const userId = user.uid;
-      
-          const userWeeksRef = collection(db, "users", userId, "weeks");
-          const weekDocRef = await addDoc(userWeeksRef, {
-            tasks: tasksByDay,
-            notes,
-          });
-          console.log("Week document added with ID: ", weekDocRef.id);
-        } catch (error) {
-          console.error("Error adding week document: ", error);
-        }
-      };
-      
-      saveTasksToFirestore();
-      setSavePage(false);
-      setTasksByDay(tasksByDay)
-      console.log(tasksByDay)
-    }
-  }, [tasksByDay, savePage, notes]);
-
-
-  useEffect(() => {
-    // Check if the "weeks" collection exists
-    const checkWeeksCollection = async () => {
-      const collectionRef = collection(db, "weeks");
-      const collectionSnapshot = await getDocs(collectionRef);
-      if (collectionSnapshot.empty) {
-        // Create the "weeks" collection if it doesn't exist
-        await addDoc(collectionRef, {});
-      }
-    };
-
-    checkWeeksCollection();
-  }, []);
-
-
-  useEffect(() => {
-    const user = auth.currentUser;
-    const userId = user.uid;
-    const userWeeksRef = collection(db, "users", userId, "weeks");
-  
-    const fetchSavedTasks = async () => {
-      try {
-        const snapshot = await getDocs(userWeeksRef);
-        if (!snapshot.empty) {
-          snapshot.forEach((doc) => {
-            const data = doc.data();
-            console.log(data)
-            // Update tasksByDay and notes state with the fetched data
-            setTasksByDay(data.tasks);
-            setNotes(data.notes);
-          });
-        }
-      } catch (error) {
-        console.error("Error fetching saved tasks: ", error);
-      }
-    };
-  
-    fetchSavedTasks();
-  }, []);
-  
 
 
   function handleClearButton () {
@@ -189,6 +90,10 @@ export default function Week() {
       setNotes(e.target.value)
   }
 
+  const popUp = () => {
+    navigate("/popup")
+  }
+
  
   return (
     
@@ -197,7 +102,7 @@ export default function Week() {
         <div className="text-2xl md:text-4xl text-slate-800 font-bold">{monthYear}</div>
 
         <div className="flex flex-row space-x-2 md:space-x-4 ">
-          <SaveButton onClick={handleSaveButton} />
+          <SaveButton onClick={popUp} />
           <ClearButton onClick={handleClearButton} />
           <UserIcon isLoggedin={isLoggedin}/>
         </div>
@@ -223,10 +128,10 @@ export default function Week() {
         <div className="flex flex-col md:grid md:col-start-3 md:col-end-6 md:col-span-2 h-48 font-poppins">
             <div className="col-span-2"></div>
             <div className="col-span-2 col-end-6">
-              <Notes
-                notes={notes}
-                setNotes={setNotes}
-                handleNotesChange={handleNotesChange} />
+                <Notes notes={notes}
+                       setNotes={setNotes}
+                       handleNotesChange={handleNotesChange}
+                />
             </div>
         </div>
         
