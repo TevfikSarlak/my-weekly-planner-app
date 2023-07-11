@@ -8,7 +8,7 @@ import UserIcon from "../buttons/UserIcon";
 import { defaultTasks, firstTasks } from "../../utils";
 
 
-export default function Week() {
+export default function Week({ userInitial, isLoggedin }) {
 
  
   const [isLoggedin, setIsLoggedin] = useState(false);
@@ -104,7 +104,7 @@ export default function Week() {
         <div className="flex flex-row space-x-2 md:space-x-4 ">
           <SaveButton onClick={popUp} />
           <ClearButton onClick={handleClearButton} />
-          <UserIcon isLoggedin={isLoggedin}/>
+          <UserIcon />
         </div>
       </div>
 
