@@ -8,7 +8,7 @@ import UserIcon from "../buttons/UserIcon";
 import { defaultTasks, firstTasks } from "../../utils";
 
 
-export default function Week({ userInitial, isLoggedin }) {
+export default function Week() {
 
  
   const [isLoggedin, setIsLoggedin] = useState(false);

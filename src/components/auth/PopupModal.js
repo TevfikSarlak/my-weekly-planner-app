@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function PopupModal() {
@@ -44,7 +44,9 @@ export default function PopupModal() {
                 </svg>
                 <span className="sr-only">Close modal</span>
               </button>
+
               <div className="p-6 text-center mt-8 space-y-2">
+
                 <h3 className="mt-8 text-indigo-800 font-bold text-xl">
                   By using this option,
                 </h3>

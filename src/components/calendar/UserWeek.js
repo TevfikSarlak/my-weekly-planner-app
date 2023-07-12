@@ -9,6 +9,7 @@ import { auth, db } from "../../firebase";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { defaultTasks, firstTasks } from "../../utils";
 
+
 export default function UserWeek( { userInitial }) {
   const [isLoggedin, setIsLoggedin] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false);
@@ -17,8 +18,13 @@ export default function UserWeek( { userInitial }) {
   const [savePage, setSavePage] = useState(false);
   const [clearPage, setClearPage] = useState(false);
   const [notes, setNotes] = useState("");
-  const defaultTasksRef = doc(db, "weeks", "default");
+  const user = auth.currentUser;
+  const userId = user ? user.uid : null;
+  const userTasksRef = doc(db, "users", userId);
   const [tasksByDay, setTasksByDay] = useState(firstTasks || {});
+  const [showAlert, setShowAlert] = useState(false);
+  
+  
 
   function updateTasksByDay(day, newTasks) {
     setTasksByDay((prevTasksByDay) => ({
@@ -51,18 +57,21 @@ export default function UserWeek( { userInitial }) {
     setSavePage(true);
   }
 
+  
   // Fetch saved tasks from Firestore
   useEffect(() => {
     const fetchSavedTasks = async () => {
       try {
-        const defaultTasksSnapshot = await getDoc(defaultTasksRef);
-        if (defaultTasksSnapshot.exists()) {
-          const defaultTasksData = defaultTasksSnapshot.data();
-          setTasksByDay(defaultTasksData.tasks);
-          setNotes(defaultTasksData.notes);
-        } else {
-          // Use firstTasks as the default if the document doesn't exist
-          setTasksByDay(firstTasks);
+        if (userId) {
+          const userTasksSnapshot = await getDoc(userTasksRef);
+          if (userTasksSnapshot.exists()) {
+            const userTasksData = userTasksSnapshot.data();
+            setTasksByDay(userTasksData.tasks);
+            setNotes(userTasksData.notes);
+          } else {
+            // Use firstTasks as the default if the document doesn't exist
+            setTasksByDay(firstTasks);
+          }
         }
       } catch (error) {
         console.error("Error fetching saved tasks: ", error);
@@ -70,18 +79,25 @@ export default function UserWeek( { userInitial }) {
     };
 
     fetchSavedTasks();
-  }, []);
+  }, [userId]);
 
   // Save tasks and notes to Firestore
+  
   useEffect(() => {
-    if (savePage && tasksByDay) {
+    let timeoutId;
+
+    if (savePage && tasksByDay && userId) {
       const saveTasksToFirestore = async () => {
         try {
-          await setDoc(defaultTasksRef, {
+          await setDoc(userTasksRef, {
             tasks: tasksByDay,
             notes,
           });
           console.log("Week document updated successfully");
+          setShowAlert(true);
+          timeoutId = setTimeout(() => {
+            setShowAlert(false);
+          }, 3000);
         } catch (error) {
           console.error("Error updating week document: ", error);
         }
@@ -91,19 +107,37 @@ export default function UserWeek( { userInitial }) {
       setSavePage(false);
       console.log(tasksByDay);
     }
-  }, [tasksByDay, savePage, notes]);
 
-  function handleClearButton() {
-    setClearPage(true);
-  }
+    return () => {
+      clearTimeout(timeoutId);
+    };
+  }, [tasksByDay, savePage, notes, userId]);
 
+  // Clear tasks and notes
   useEffect(() => {
-    if (clearPage) {
-      setTasksByDay(defaultTasks);
+    if (clearPage && userId) {
+      const clearTasksAndNotes = async () => {
+        try {
+          await setDoc(userTasksRef, {
+            tasks: defaultTasks,
+            notes: "",
+          });
+          console.log("Week document cleared successfully");
+          setTasksByDay(defaultTasks);
+          setNotes("");
+        } catch (error) {
+          console.error("Error clearing week document: ", error);
+        }
+      };
+
+      clearTasksAndNotes();
       setClearPage(false);
-      setNotes(" ");
     }
-  }, [clearPage, notes, defaultTasks]);
+  }, [clearPage, userId]);
+
+  const handleClearButton = () => {
+    setClearPage(true)
+  }
 
   // Find the date of Monday of the current week
   const mondayDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - today.getDay());
@@ -130,18 +164,25 @@ export default function UserWeek( { userInitial }) {
 
   return (
     <div>
-      <div className="flex flex-row my-4 font-poppins items-center justify-between border-b-4 pb-4 border-slate-500 px-6">
-        <div className="text-2xl md:text-4xl text-slate-800 font-bold">{monthYear}</div>
-
-        <div className="flex flex-row space-x-2 md:space-x-4 ">
-          <SaveButton onClick={handleSaveButton} />
-          <ClearButton onClick={handleClearButton} />
-          <UserIcon isLoggedin={isLoggedin}
-                    userInitial={userInitial} />
+      {showAlert ? (
+        <div className="flex flex-row pt-4 mb-4 font-poppins items-center justify-center border-b-4 pb-4 border-slate-500 px-6 font-thin text-2xl md:text-4xl  text-indigo-800  bg-green-50" role="alert">
+            You saved your weekly tasks successfully.
         </div>
-      </div>
+        ):(
+          <div className="flex flex-row mt-4 mb-4 font-poppins items-center justify-between border-b-4 pb-4 border-slate-500 px-6">
+            <div className="text-2xl md:text-4xl text-slate-800 font-bold">{monthYear}</div>
 
-      <div className="flex flex-col md:grid md:grid-cols-5 font-poppins mx-4 md:gap-6">
+              <div className="flex flex-row space-x-2 md:space-x-4 ">
+                <SaveButton onClick={handleSaveButton} />
+                <ClearButton onClick={handleClearButton} />
+                <UserIcon isLoggedin={isLoggedin}
+                          userInitial={userInitial} />
+              </div>
+          </div>
+        )}
+      
+     
+        <div className="flex flex-col md:grid md:grid-cols-5 font-poppins mx-4 md:gap-6">
         {tasksByDayArray.length > 0 &&
           tasksByDayArray.map(({ day, tasks }, index) => (
             <Day
