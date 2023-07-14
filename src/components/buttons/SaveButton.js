@@ -1,5 +1,6 @@
 import React from "react";
 
+// Component for Save Button
 export default function SaveButton({ onClick }) {
   return (
     <div>

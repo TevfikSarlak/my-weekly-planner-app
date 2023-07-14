@@ -2,9 +2,11 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 export default function PopupModal() {
+  // Initialize state variables
   const [isModalOpen, setIsModalOpen] = useState(true);
   const navigate = useNavigate();
-  
+
+  // Handle closing the modal
   const handleCloseModal = () => {
     navigate("/week", { replace: true });
     setIsModalOpen(false);
@@ -13,13 +15,8 @@ export default function PopupModal() {
   return (
     <div>
       {isModalOpen && (
-        <div
-          className="fixed font-poppins top-0 left-0 right-0 bottom-0 flex justify-center items-center bg-gray-200 bg-opacity-50"
-        >
-          <div
-            tabIndex="-1"
-            className="relative  max-w-md max-h-full w-5/6 md:w-1/3"
-          >
+        <div className="fixed font-poppins top-0 left-0 right-0 bottom-0 flex justify-center items-center bg-gray-200 bg-opacity-50">
+          <div tabIndex="-1" className="relative  max-w-md max-h-full w-5/6 md:w-1/3">
             <div className="relative bg-white rounded-lg shadow ">
               <button
                 type="button"
@@ -46,12 +43,11 @@ export default function PopupModal() {
               </button>
 
               <div className="p-6 text-center mt-8 space-y-2">
-
                 <h3 className="mt-8 text-indigo-800 font-bold text-xl">
                   By using this option,
                 </h3>
 
-                <p className="text-gray-500 ">
+                <p className="text-gray-500">
                   If you are not logged in, please
                   <Link
                     to="/login"
@@ -61,7 +57,7 @@ export default function PopupModal() {
                   </Link>
                 </p>
 
-                <p className="text-gray-500 ">
+                <p className="text-gray-500">
                   If you are not signed in, please
                   <Link
                     to="/signup"

@@ -7,15 +7,18 @@ import { auth } from '../../firebase';
 export default function Signup() {
   const navigate = useNavigate();
 
+  // Initialize state variables
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
 
+  // Handle form submission
   const onSubmit = async (e) => {
     e.preventDefault();
 
     if (password === confirmPassword) {
+      // Create user with email and password
       await createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
           const user = userCredential.user;
@@ -32,6 +35,7 @@ export default function Signup() {
     }
   };
 
+  // Handle closing the modal
   const handleCloseModal = () => {
     navigate('/');
   };
@@ -43,14 +47,12 @@ export default function Signup() {
           <div className="w-full bg-white rounded-lg shadow md:mt-0 sm:max-w-md xl:p-0">
             <div className="p-6 space-y-4 md:space-y-6 sm:p-8">
               <div className="flex items-end justify-end">
-
                 <button
                   className="text-gray-500 hover:text-gray-800 transition-all duration-200"
                   onClick={handleCloseModal}
                 >
                   <MdClose size={24} />
                 </button>
-
               </div>
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl">
                 Create an Account
@@ -75,11 +77,9 @@ export default function Signup() {
                     placeholder="name@company.com"
                     required
                   />
-
                 </div>
 
                 <div>
-
                   <label
                     htmlFor="password"
                     className="block mb-2 text-medium font-semibold text-indigo-800"
@@ -97,7 +97,6 @@ export default function Signup() {
                     className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5"
                     required
                   />
-
                 </div>
 
                 <div>
@@ -122,7 +121,6 @@ export default function Signup() {
                   {passwordError && (
                     <p className="text-sm text-red-700">{passwordError}</p>
                   )}
-
                 </div>
 
                 <button
@@ -142,7 +140,6 @@ export default function Signup() {
                     Log in here
                   </Link>
                 </p>
-                
               </form>
             </div>
           </div>

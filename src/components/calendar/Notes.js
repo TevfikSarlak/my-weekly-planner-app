@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function Notes({notes, setNotes, handleNotesChange}) {
+export default function Notes({notes, handleNotesChange}) {
     return (
         <div className="mt-8">
             <textarea

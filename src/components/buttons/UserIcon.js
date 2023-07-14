@@ -11,6 +11,7 @@ export default function UserIcon({ isLoggedin }) {
   const [userInitial, setUserInitial] = useState("");
 
   useEffect(() => {
+    // Get current user and set the user initial
     const user = auth.currentUser;
     if (user) {
       const userEmail = user.email;
@@ -28,6 +29,7 @@ export default function UserIcon({ isLoggedin }) {
   };
 
   const handleLogout = () => {
+    // Sign out the user
     signOut(auth)
       .then(() => {
         navigate("/");
@@ -39,18 +41,19 @@ export default function UserIcon({ isLoggedin }) {
   };
 
   const handleResetPassword = () => {
-        const user = auth.currentUser;
-        const email = user.email;
-        sendPasswordResetEmail(auth, email)
-        .then(() => {
-        })
-        .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            console.log(errorCode, errorMessage)
-        });
-  }
-    
+    const user = auth.currentUser;
+    const email = user.email;
+    // Send password reset email
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        // Password reset email sent successfully
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+      });
+  };
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -86,7 +89,7 @@ export default function UserIcon({ isLoggedin }) {
           {isLoggedin ? (
             <ul className="py-2 text-sm text-gray-700">
               <li>
-              <Link
+                <Link
                   to="/userweek"
                   className="px-4 py-2 flex items-center hover:bg-indigo-200"
                 >
@@ -105,7 +108,6 @@ export default function UserIcon({ isLoggedin }) {
                   Logout
                 </Link>
               </li>
-
               <li>
                 <Link
                   to="/login"

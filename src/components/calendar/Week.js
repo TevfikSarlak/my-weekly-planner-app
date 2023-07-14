@@ -5,13 +5,12 @@ import SaveButton from "../buttons/SaveButton";
 import ClearButton from "../buttons/ClearButton";
 import Notes from "./Notes";
 import UserIcon from "../buttons/UserIcon";
-import { defaultTasks, firstTasks } from "../../utils";
+import { firstTasks } from "../../utils";
 
 
 export default function Week() {
 
  
-  const [isLoggedin, setIsLoggedin] = useState(false);
   const [isCompleted, setIsCompleted] = useState(false)
   const today = new Date();
   const daysOfWeek = ["Sun","Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -47,11 +46,11 @@ export default function Week() {
 
   useEffect(() => {
     if (clearPage) {
-      setTasksByDay(defaultTasks)
+      setTasksByDay(firstTasks)
       setClearPage(false)
       setNotes(" ")
     }
-  },[clearPage, notes, defaultTasks])
+  },[clearPage])
   
  
 
