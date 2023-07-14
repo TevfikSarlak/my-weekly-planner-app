@@ -10,11 +10,15 @@ import PopupModal from "./components/auth/PopupModal";
 import UserWeek from "./components/calendar/UserWeek";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
+import LoadingPage from "./components/common/LoadingPage";
+
 
 
 function App() {
 
   const [isLoggedin, setIsLoggedin] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+ 
 
     useEffect(()=>{
         onAuthStateChanged(auth, (user) => {
@@ -31,11 +35,14 @@ function App() {
          
     }, [])
 
+
+
     const ProtectedUserWeek = () => {
       if (!isLoggedin) {
         return <Navigate to="/login" />;
-      }
-      return <UserWeek />;
+      } 
+        return <UserWeek />;
+      
     };
 
 

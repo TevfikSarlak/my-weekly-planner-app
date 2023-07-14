@@ -42,9 +42,9 @@ export default function Task({ value, onChange, onComplete, isCompleted }) {
         }}
         onChange={handleOnChange}
         onBlur={handleOnBlur}
-        className="border-b-2 focus:outline-none border-gray-300 text-slate-600 px-2 
+        className={`border-b-2 focus:outline-none focus:border-2 border-gray-300 text-slate-600 px-2 
             py-1 mt-2 w-full rounded-sm hover:border-b-indigo-800 space-y-2 hover:border-b-2
-            focus:shadow-lg"
+            focus:shadow-lg`}
       />
       {hovered && value !== ' ' && (
         <button>

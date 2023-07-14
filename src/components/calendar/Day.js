@@ -1,14 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import Task from "./Task";
 import DateDay from "./DateDay";
 
 
 export const Day = ({ day, date,
                       tasksByDay, setTasksByDay, 
-                      updateTasksByDay ,
-                      tasksByDayArray,setTasksByDayArray,
-                      isCompleted,setIsCompleted
-                      }) => {
+                      updateTasksByDay ,setTasksByDayArray,
+                    }) => {
   
   const defaultTasks = {
     "Mon": ["organize your week", " ", " "],
