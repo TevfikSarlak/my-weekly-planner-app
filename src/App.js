@@ -10,14 +10,14 @@ import PopupModal from "./components/auth/PopupModal";
 import UserWeek from "./components/calendar/UserWeek";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase";
-import LoadingPage from "./components/common/LoadingPage";
+import NotFound from "./components/common/NotFound";
+
 
 
 
 function App() {
 
   const [isLoggedin, setIsLoggedin] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
  
 
     useEffect(()=>{
@@ -61,7 +61,8 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/feedbacksubmit" element={<FeedbackSubmit />} />
 
-
+          <Route path="*" element={<NotFound />} />
+      
         </Routes>
       </Router>   
     </div>
